@@ -1,0 +1,17 @@
+name: Revenue Forecast Pipeline
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 7 * * *'
+jobs:
+  forecast:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - run: pip install -r requirements.txt
+      - run: python src/generate_revenue_data.py
+      - run: python src/forecast_model.py
+      - run: python src/scenario_planning.py
